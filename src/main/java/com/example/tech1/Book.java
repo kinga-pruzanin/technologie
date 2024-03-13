@@ -25,8 +25,9 @@ public class Book {
 
     private Integer availableCopies;
 
-    @OneToMany(mappedBy = "book")
-    private Set<Loan> loans = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "loanId")
+    private Loan loan;
 
     @OneToMany(mappedBy = "book")
     private Set<Review> reviews = new HashSet<>();
