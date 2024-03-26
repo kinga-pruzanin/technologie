@@ -24,8 +24,9 @@ public class Loan {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "loan")
-    private Set<Book> books = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "bookId")
+    private Book book;
 
     public Integer getId() {
         return id;
@@ -65,14 +66,6 @@ public class Loan {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
     }
 
 }

@@ -11,7 +11,7 @@ public class User {
 
     public enum Role {
         READER,
-        EMPLOYEE
+        LIBRARIAN
     }
 
     @Id
