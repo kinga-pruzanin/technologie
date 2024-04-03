@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +26,12 @@ public class UserController {
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody User addUser(@RequestBody User user) {
+        if (userRepo.findUsername(user.getUsername()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with given username already exists");
+        }
+        if (userRepo.findEmail(user.getEmail()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with given e-mail already exists");
+        }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         return userRepo.save(user);
@@ -34,6 +41,9 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Integer id) {
+        if (userRepo.checkIfExists(id) == null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with given ID doesn't exist");
+        }
         userRepo.deleteById(id);
     }
 }

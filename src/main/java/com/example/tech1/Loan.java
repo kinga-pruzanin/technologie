@@ -24,6 +24,14 @@ public class Loan {
     @JoinColumn(name = "userId")
     private User user;
 
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
