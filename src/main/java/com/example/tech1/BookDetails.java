@@ -50,12 +50,15 @@ public class BookDetails {
         this.coverImageURL = coverImageURL;
     }
 
+    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
 
+    @Column(nullable = false)
     private String genre;
 
+    @Column(nullable = false)
     private String summary;
 
     private String coverImageURL;

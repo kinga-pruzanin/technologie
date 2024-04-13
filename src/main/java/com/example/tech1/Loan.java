@@ -22,6 +22,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "userId")
+    @Column(nullable = false)
     private User user;
 
     public Book getBook() {
@@ -34,6 +35,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "bookId")
+    @Column(nullable = false)
     private Book book;
 
     public Integer getId() {

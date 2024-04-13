@@ -30,7 +30,13 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/login").permitAll()
-                                        .requestMatchers("/book").hasRole("READER")
+                                        .requestMatchers("/book/getAll").permitAll()
+                                        .requestMatchers("/book/add").hasRole("LIBRARIAN")
+                                        .requestMatchers("/user/**").hasRole("LIBRARIAN")
+                                        .requestMatchers("/loan/**").hasRole("LIBRARIAN")
+                                        .requestMatchers("/bookDetails/**").hasRole("READER")
+                                        .requestMatchers("/review/**").hasRole("READER")
+                                        .requestMatchers("/error").permitAll()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

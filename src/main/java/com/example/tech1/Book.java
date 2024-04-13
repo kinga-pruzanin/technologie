@@ -13,16 +13,22 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(nullable = false)
     private String isbn;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String author;
 
+    @Column(nullable = false)
     private String publisher;
 
+    @Column(nullable = false)
     private Integer publishYear;
 
+    @Column(nullable = false)
     private Integer availableCopies;
 
     @OneToMany(mappedBy = "book")

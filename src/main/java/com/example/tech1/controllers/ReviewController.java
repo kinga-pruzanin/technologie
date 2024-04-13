@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
@@ -29,6 +31,7 @@ public class ReviewController {
         if (book == null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Book with given ID doesn't exist");
         }
+        review.setReviewDate(LocalDate.now());
         return reviewRepo.save(review);
     }
 

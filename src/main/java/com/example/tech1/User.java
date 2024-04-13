@@ -10,8 +10,8 @@ import java.util.Set;
 public class User {
 
     public enum Role {
-        READER,
-        LIBRARIAN
+        ROLE_READER,
+        ROLE_LIBRARIAN
     }
 
     @Id

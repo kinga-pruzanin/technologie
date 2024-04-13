@@ -12,8 +12,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String rating; //zamienic na enum
+    @Column(nullable = false)
+    private String rating;
 
+    @Column(nullable = false)
     private String comment;
 
     private LocalDate reviewDate;
