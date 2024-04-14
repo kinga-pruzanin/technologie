@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * Controller for managing user operations.
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -15,12 +18,23 @@ public class UserController {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Constructs a new UserController.
+     * @param userRepo The repository for users.
+     * @param passwordEncoder The password encoder.
+     */
     @Autowired
     public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Adds a new user.
+     * @param user The user to add.
+     * @return The added user.
+     * @throws ResponseStatusException If a user with the same username or email already exists.
+     */
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody User addUser(@RequestBody User user) {
@@ -35,6 +49,11 @@ public class UserController {
         return userRepo.save(user);
     }
 
+    /**
+     * Deletes a user by ID.
+     * @param id The ID of the user to delete.
+     * @throws ResponseStatusException If the user with the given ID does not exist.
+     */
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Integer id) {

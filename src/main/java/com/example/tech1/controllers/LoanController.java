@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 
+/**
+ * Controller for managing loans.
+ */
 @RestController
 @RequestMapping("/loan")
 public class LoanController {
@@ -21,6 +24,12 @@ public class LoanController {
     private final BookRepository bookRepo;
     private final UserRepository userRepo;
 
+    /**
+     * Constructs a new LoanController.
+     * @param loanRepo The repository for loans.
+     * @param bookRepo The repository for books.
+     * @param userRepo The repository for users.
+     */
     @Autowired
     public LoanController(LoanRepository loanRepo, BookRepository bookRepo, UserRepository userRepo) {
         this.loanRepo = loanRepo;
@@ -28,6 +37,12 @@ public class LoanController {
         this.userRepo = userRepo;
     }
 
+    /**
+     * Adds a new loan.
+     * @param loan The loan to add.
+     * @return The added loan.
+     * @throws ResponseStatusException If the associated book or user does not exist.
+     */
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody Loan addLoan(@RequestBody Loan loan) {
@@ -48,6 +63,12 @@ public class LoanController {
         return loanRepo.save(loan);
     }
 
+    /**
+     * Marks a loan as returned.
+     * @param id The ID of the loan to mark as returned.
+     * @return The loan with the return date updated.
+     * @throws ResponseStatusException If the loan with the given ID is not found.
+     */
     @PostMapping("/return/{id}")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody Loan returnLoan(@PathVariable Integer id) {
@@ -58,9 +79,12 @@ public class LoanController {
         return loanRepo.save(loan);
     }
 
+    /**
+     * Retrieves all loans.
+     * @return All loans in the database.
+     */
     @GetMapping("/getAll")
     public @ResponseBody Iterable<Loan> getAllLoans() {
         return loanRepo.findAll();
     }
-
 }

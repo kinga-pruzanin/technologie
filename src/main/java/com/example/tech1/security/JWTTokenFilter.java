@@ -16,14 +16,29 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class implements a filter for processing JWT tokens in HTTP requests.
+ */
 public class JWTTokenFilter extends OncePerRequestFilter {
 
     private final String key;
 
+    /**
+     * Constructs a new JWTTokenFilter with the specified key for token validation.
+     * @param key The key used for validating JWT tokens.
+     */
     public JWTTokenFilter(String key) {
         this.key = key;
     }
 
+    /**
+     * Filters incoming HTTP requests to process JWT tokens.
+     * @param request The HTTP servlet request.
+     * @param response The HTTP servlet response.
+     * @param filterChain The filter chain to proceed with after token processing.
+     * @throws ServletException If an error occurs during servlet processing.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -39,10 +54,10 @@ public class JWTTokenFilter extends OncePerRequestFilter {
                     .getPayload();
 
             String userId = (String) claims.get("id");
-            String role = (String) claims.get("role"); // dwie zmienne zapisane w tokenie przy tworzeniu
+            String role = (String) claims.get("role");
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-              userId, null, List.of(new SimpleGrantedAuthority(role))
+                    userId, null, List.of(new SimpleGrantedAuthority(role))
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,8 +65,6 @@ public class JWTTokenFilter extends OncePerRequestFilter {
         else {
             SecurityContextHolder.getContext().setAuthentication(null);
         }
-
         filterChain.doFilter(request, response);
-
     }
 }
