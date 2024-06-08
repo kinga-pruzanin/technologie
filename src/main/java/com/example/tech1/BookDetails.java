@@ -49,8 +49,7 @@ public class BookDetails {
     public void setCoverImageURL(String coverImageURL) {
         this.coverImageURL = coverImageURL;
     }
-
-    @Column(nullable = false)
+    
     @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
