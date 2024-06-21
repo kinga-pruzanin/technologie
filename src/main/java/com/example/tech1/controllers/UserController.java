@@ -4,6 +4,9 @@ import com.example.tech1.User;
 import com.example.tech1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -61,5 +64,16 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User with given ID doesn't exist");
         }
         userRepo.deleteById(id);
+    }
+
+    @GetMapping("/me/role")
+    public String getCurrentUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUser =  authentication.getName();
+            return userRepo.findRoleById(Integer.parseInt(currentUser));
+        }else{
+            throw new RuntimeException("No user found");
+        }
     }
 }

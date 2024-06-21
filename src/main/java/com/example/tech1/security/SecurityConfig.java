@@ -37,9 +37,13 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/login").permitAll()
-                                        .requestMatchers("/book/getAll").permitAll()
+                                        .requestMatchers("/book/getAll").hasAnyRole("LIBRARIAN", "READER")
                                         .requestMatchers("/book/add").hasRole("LIBRARIAN")
-                                        .requestMatchers("/user/**").hasRole("LIBRARIAN")
+                                        .requestMatchers("/book/delete/{isbn}").hasRole("LIBRARIAN")
+                                        .requestMatchers("/book/update/{isbn}").hasRole("LIBRARIAN")
+                                        .requestMatchers("/user/me/role").authenticated()
+                                        .requestMatchers("/user/add").hasRole("LIBRARIAN")
+                                        .requestMatchers("/user/delete/{id}").hasRole("LIBRARIAN")
                                         .requestMatchers("/loan/**").hasRole("LIBRARIAN")
                                         .requestMatchers("/bookDetails/**").hasRole("READER")
                                         .requestMatchers("/review/**").hasRole("READER")

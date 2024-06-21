@@ -31,6 +31,9 @@ public class Book {
     @Column(nullable = false)
     private Integer availableCopies;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     @OneToMany(mappedBy = "book")
     private Set<Loan> loans = new HashSet<>();
 
@@ -91,5 +94,13 @@ public class Book {
 
     public void setAvailableCopies(Integer availableCopies) {
         this.availableCopies = availableCopies;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

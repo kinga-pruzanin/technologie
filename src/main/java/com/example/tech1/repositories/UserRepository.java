@@ -35,6 +35,9 @@ public interface UserRepository extends CrudRepository<User, Integer>  {
     @Query("SELECT u.role FROM User u WHERE u.username = :username")
     String findRole(String username);
 
+    @Query("SELECT u.role FROM User u WHERE u.id = :id")
+    String findRoleById(Integer id);
+
     /**
      * Finds the username of a user by username.
      * @param username The username of the user.
