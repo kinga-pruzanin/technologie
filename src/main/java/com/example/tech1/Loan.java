@@ -20,6 +20,16 @@ public class Loan {
 
     private LocalDate returnDate;
 
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    private boolean accepted = false;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;

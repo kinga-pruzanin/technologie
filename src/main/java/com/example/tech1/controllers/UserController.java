@@ -76,4 +76,14 @@ public class UserController {
             throw new RuntimeException("No user found");
         }
     }
+
+    @GetMapping("/me/id")
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return authentication.getName();
+        }else{
+            throw new RuntimeException("No user found");
+        }
+    }
 }

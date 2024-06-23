@@ -79,6 +79,24 @@ public class LoanController {
         return loanRepo.save(loan);
     }
 
+    @PutMapping("/accept/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void acceptLoan(@PathVariable Integer id) {
+        try {
+            Loan loan = loanRepo.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan with given ID not found"));
+
+            loan.setAccepted(true);
+
+            loanRepo.save(loan);
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error accepting loan", e);
+        }
+    }
+
     /**
      * Retrieves all loans.
      * @return All loans in the database.
