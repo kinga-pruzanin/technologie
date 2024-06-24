@@ -69,12 +69,15 @@ public class LoanController {
      * @return The loan with the return date updated.
      * @throws ResponseStatusException If the loan with the given ID is not found.
      */
-    @PostMapping("/return/{id}")
+    @PutMapping("/return/{id}")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody Loan returnLoan(@PathVariable Integer id) {
         Loan loan = loanRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan with given ID not found"));
 
+        Integer number = loan.book.getAvailableCopies();
+        loan.book.setAvailableCopies(number + 1);
+        bookRepo.save(loan.getBook());
         loan.setReturnDate(LocalDate.now());
         return loanRepo.save(loan);
     }
@@ -90,6 +93,9 @@ public class LoanController {
 
             loanRepo.save(loan);
 
+            Integer number = loan.book.getAvailableCopies();
+            loan.book.setAvailableCopies(number - 1);
+            bookRepo.save(loan.getBook());
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {

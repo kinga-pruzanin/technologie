@@ -44,7 +44,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "bookId")
-    private Book book;
+    public Book book;
 
     public Integer getId() {
         return id;

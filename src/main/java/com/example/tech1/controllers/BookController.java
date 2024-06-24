@@ -34,6 +34,10 @@ public class BookController {
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody Book addBook(@RequestBody Book book) {
+        String isbnRegex = "\\d{13}";
+        if (!book.getIsbn().matches(isbnRegex)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ISBN must contain exactly 13 digits");
+        }
         if (bookRepo.findBookByIsbn(book.getIsbn()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This book was already added to the database");
         }
