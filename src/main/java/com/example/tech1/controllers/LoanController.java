@@ -82,6 +82,15 @@ public class LoanController {
         return loanRepo.save(loan);
     }
 
+    /**
+     * Accepts a loan request by its ID.
+     *
+     * If the loan with the given ID is not found, a not found status is returned.
+     * Otherwise, the loan is marked as accepted and the number of available copies
+     * of the book associated with the loan is decremented by one.
+     *
+     * @param id the ID of the loan to be accepted.
+     */
     @PutMapping("/accept/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void acceptLoan(@PathVariable Integer id) {

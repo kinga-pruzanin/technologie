@@ -52,6 +52,8 @@ public class SecurityConfig {
                                         .requestMatchers("/bookDetails/**").hasRole("READER")
                                         .requestMatchers("/review/**").hasRole("READER")
                                         .requestMatchers("/error").permitAll()
+                                        .requestMatchers("/swagger-ui/**").permitAll()
+                                        .requestMatchers("/v3/api-docs/**").permitAll()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

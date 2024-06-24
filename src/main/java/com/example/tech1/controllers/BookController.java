@@ -53,6 +53,16 @@ public class BookController {
         return bookRepo.findAll();
     }
 
+    /**
+     * Deletes a book by its ISBN.
+     *
+     * If the book has never been borrowed, it is deleted from the repository.
+     * If the book has been borrowed, it checks whether the book can be deleted.
+     * If it cannot be deleted due to active rentals, a conflict status is returned.
+     * Otherwise, the book is marked as deleted and a created status is returned.
+     *
+     * @param isbn the ISBN of the book to be deleted.
+     */
     @DeleteMapping("/delete/{isbn}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteBookByIsbn(@PathVariable String isbn) {
@@ -75,6 +85,15 @@ public class BookController {
         }
     }
 
+    /**
+     * Updates the information of a book.
+     *
+     * If the book with the given ISBN is not found, a not found status is returned.
+     * Otherwise, the book information is updated and saved in the repository.
+     *
+     * @param isbn the ISBN of the book to be updated.
+     * @param updatedBook the updated book information.
+     */
     @PutMapping("/update/{isbn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBook(@PathVariable("isbn") String isbn, @RequestBody Book updatedBook) {
